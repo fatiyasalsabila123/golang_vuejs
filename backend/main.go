@@ -137,7 +137,6 @@ func ValidateToken(c *gin.Context) {
 		Success: false,
 		Result:  "Token is not valid",
 	})
-	return
 }
 
 type Product struct {
