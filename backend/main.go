@@ -20,13 +20,10 @@ type Response struct {
 
 func RequestResponseLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// Log the request details
 		log.Printf("Request: %s %s", c.Request.Method, c.Request.URL.String())
 
-		// Process the request
 		c.Next()
 
-		// Log the response details
 		log.Printf("Response: %d %s", c.Writer.Status(), http.StatusText(c.Writer.Status()))
 	}
 }
@@ -65,17 +62,14 @@ func GenerateToken(c *gin.Context) {
 
 	secretKey := []byte("secret-key")
 
-	// Create a new token
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	temp := time.Now().Add(20 * time.Second).Unix()
 	fmt.Println(temp)
-	// Set claims
 	claims := token.Claims.(jwt.MapClaims)
 	claims["username"] = request.Username
 	claims["exp"] = temp // Token expiration time
 
-	// Sign the token with your secret key
 	tokenString, err := token.SignedString(secretKey)
 	if err != nil {
 		c.JSON(http.StatusOK, Response{
@@ -113,9 +107,7 @@ func ValidateToken(c *gin.Context) {
 		return
 	}
 
-	// Check if the token is valid
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		// Check token expiration
 		expTime := time.Unix(int64(claims["exp"].(float64)), 0)
 		if time.Now().After(expTime) {
 			c.JSON(http.StatusOK, Response{

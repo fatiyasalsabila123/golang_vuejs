@@ -1,6 +1,5 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-// import * as token from './utils/token'
 </script>
 
 <template>
@@ -53,7 +52,7 @@ export default {
       }
 
       let tokens = localStorage.getItem('jwtToken');
-      
+
       let status = await token.validateToken(tokens);
 
       if(status==false){

@@ -5,9 +5,8 @@ export function showAlertSuccess() {
     title: 'Success',
     text: 'Success Do Payment!',
     icon: 'success',
-    backdrop: 'static',// Optional: also set allowOutsideClick to false
-    allowOutsideClick: false, // Optional: also set allowOutsideClick to false
-    // showCancelButton: true, //Optional if you need button cancel
+    backdrop: 'static',
+    allowOutsideClick: false,
 
     confirmButtonText: 'OK',
     cancelButtonText: 'Cancel1',
@@ -15,9 +14,7 @@ export function showAlertSuccess() {
     if (result.value) {
       window.location.reload();
     } else if (result.dismiss === Swal.DismissReason.cancel) {
-      // User clicked 'No' or closed the dialog
     }
-    // Code here will execute after the SweetAlert2 dialog is closed
   })
 
 }
@@ -28,16 +25,13 @@ export function showAlertWarning(message) {
     text: message,
     icon: 'warning',
     backdrop: 'static',
-    allowOutsideClick: false, // Optional: also set allowOutsideClick to false
+    allowOutsideClick: false,
     confirmButtonText: 'OK',
   })
   .then((result) => {
     if (result.value) {
-      // User clicked 'Yes', continue your logic
     } else if (result.dismiss === Swal.DismissReason.cancel) {
-      // User clicked 'No' or closed the dialog
     }
-    // Code here will execute after the SweetAlert2 dialog is closed
   })
 }
 
@@ -47,16 +41,13 @@ export function showAlertError(error) {
     text: error,
     icon: 'error',
     backdrop: 'static',
-    allowOutsideClick: false, // Optional: also set allowOutsideClick to false
+    allowOutsideClick: false,
     confirmButtonText: 'OK',
     cancelButtonText: 'Cancel',
   })
   .then((result) => {
     if (result.value) {
-      // User clicked 'Yes', continue your logic
     } else if (result.dismiss === Swal.DismissReason.cancel) {
-      // User clicked 'No' or closed the dialog
     }
-    // Code here will execute after the SweetAlert2 dialog is closed
   })
 }
