@@ -1,63 +1,70 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-</script>
-
 <template>
-  <RouterView />
+  <!-- Tampilan Cart -->
+  <div class="cart-container">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+    </div>
+
+    <div class="cart-items">
+      <!-- Loop melalui setiap produk dalam cart -->
+      <div v-for="(item, index) in cart" :key="index" class="cart-item">
+        <!-- Menampilkan informasi produk dalam cart -->
+        {{ item.product.title }} - Quantity: {{ item.product.qty }}
+      </div>
+      <p>Total: Rp {{ cartTotal }}</p>
+
+      <!-- Tombol untuk checkout -->
+      <button @click="checkout">Checkout</button>
+    </div>
+  </div>
 </template>
 
-<style scoped>
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
-</style>
-
 <script>
-import * as token  from './utils/token'
+import axios from 'axios';
+import * as alert  from '../utils/alert'
+import * as token  from '../utils/token'
+
 export default {
-  mounted(){
-    this.checkToken()
+  data() {
+    return {
+      // Daftar produk yang dapat ditambahkan ke keranjang
+      products: [
+        // ... (produk lainnya)
+      ],
+      // Daftar produk dalam keranjang
+      cart: [],
+    };
+  },
+  computed: {
+    // Menghitung total harga produk dalam keranjang
+    cartTotal() {
+      return this.cart.reduce((total, item) => total + item.product.price * item.product.qty, 0);
+    },
   },
   methods: {
-    redirectToPage() {
-      this.$router.push('/payment');
+    // Menambahkan produk ke keranjang
+    addToCart(product) {
+      const cartItem = this.cart.find((item) => item.product.index === product.index);
+      if (cartItem) {
+        // ... (jika produk sudah ada dalam keranjang)
+      } else {
+        this.cart.push({ product });
+      }
     },
-    async checkToken(){
-      if(localStorage.getItem('jwtToken') == "" || localStorage.getItem('jwtToken') == null){
-        await token.generateToken("david");
+    // Menghapus produk dari keranjang
+    removeFromCart(product) {
+      const cartItem = this.cart.find((item) => item.product.index === product.index);
+      if (cartItem) {
+        if (cartItem.product.qty > 0) {
+          // ... (jika kuantitas produk > 0)
+        } else {
+          this.cart = this.cart.filter((item) => item.product.index !== product.index);
+        }
       }
-
-      let tokens = localStorage.getItem('jwtToken');
-
-      let status = await token.validateToken(tokens);
-
-      if(status==false){
-        localStorage.removeItem("jwtToken");
-      }
+    },
+    // Proses checkout
+    async checkout() {
+      // ... (implementasi checkout)
     },
   },
 };

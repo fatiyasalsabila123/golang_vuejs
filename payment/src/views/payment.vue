@@ -1,80 +1,24 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import Item from '../components/item.vue' 
+import Item from '../components/item.vue'
 </script>
 
 <template>
-
-<h1>MENU CONSTANT</h1>
-
+  <!-- Bagian "MENU CONSTANT" -->
   <div class="container">
     <div class="row justify-content-md-center">
-      <div class="col-md-4 custom-column custom-center-vertical">
+      <!-- Loop melalui data statis -->
+      <div class="col-md-4 custom-column custom-center-vertical" v-for="index in 5" :key="index">
         <div class="card" style="width: 15rem;">
           <img class="card-img-top" src="../assets/images.jpeg" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-           <div class="plus-minus-button">
-              <button @click="decrement1">-</button>
-              <span>{{ count1 }}</span>
-              <button @click="increment1">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 custom-column custom-center-vertical">
-        <div class="card" style="width: 15rem;">
-          <img class="card-img-top" src="../assets/images.jpeg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-           <div class="plus-minus-button">
-              <button @click="decrement2">-</button>
-              <span>{{ count2 }}</span>
-              <button @click="increment2">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 custom-column custom-center-vertical">
-        <div class="card" style="width: 15rem;">
-          <img class="card-img-top" src="../assets/images.jpeg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-           <div class="plus-minus-button">
-              <button @click="decrement3">-</button>
-              <span>{{ count3 }}</span>
-              <button @click="increment3">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 custom-column custom-center-vertical">
-        <div class="card" style="width: 15rem;">
-          <img class="card-img-top" src="../assets/images.jpeg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-           <div class="plus-minus-button">
-              <button @click="decrement3">-</button>
-              <span>{{ count3 }}</span>
-              <button @click="increment3">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 custom-column custom-center-vertical">
-        <div class="card" style="width: 15rem;">
-          <img class="card-img-top" src="../assets/images.jpeg" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-           <div class="plus-minus-button">
-              <button @click="decrement3">-</button>
-              <span>{{ count3 }}</span>
-              <button @click="increment3">+</button>
+            <!-- Button untuk menambah/mengurangi nilai count -->
+            <div class="plus-minus-button">
+              <button @click="decrement(index)">-</button>
+              <span>{{ getCount(index) }}</span>
+              <button @click="increment(index)">+</button>
             </div>
           </div>
         </div>
@@ -82,133 +26,79 @@ import Item from '../components/item.vue'
     </div>
   </div>
 
-  <hr>
+  <hr> <!-- Garis pemisah -->
 
-<h1>MENU DYNAMICT</h1>
-
+  <!-- Bagian "MENU DYNAMICT" -->
   <div class="product-list">
-    <Item v-for="(item,index) in items" :cardTitle="item.title" :cardDescription="item.desc" :index="item.index" :parentFunction="updateValue">
-    </Item>    
+    <!-- Loop melalui data dinamis -->
+    <Item v-for="(item, index) in items" :key="index" :cardTitle="item.title" :cardDescription="item.desc" :index="item.index" :parentFunction="updateValue">
+    </Item>
   </div>
 </template>
 
 <style>
 hr {
-    border: none; /* Remove the default line */
-    border-top: 2px solid #000000; /* Add a 2px solid line with a color */
-    margin: 20px 0; /* Adjust margin as needed */
+    border: none;
+    border-top: 2px solid #000000;
+    margin: 20px 0;
 }
 </style>
 
-
 <script>
-
 export default {
   components: {
     Item
   },
   data() {
     return {
-      count1: 0, // Initial count
-      count2: 0, // Initial count
-      count3: 0, // Initial count
-      temp:[],
-      jsonRes :"",
-      obj :{},
-      items:[
+      // Data statis untuk "MENU CONSTANT"
+      count1: 0,
+      count2: 0,
+      count3: 0,
+
+      // Data dinamis untuk "MENU DYNAMICT"
+      items: [
         {
-          index:1,
-          title:"Sample Card222222",
-          desc:"This is a sample card body with multiple items:",
-          count:0,
+          index: 1,
+          title: "Sample Card222222",
+          desc: "This is a sample card body with multiple items:",
+          count: 0,
         },
-        {
-          index:2,
-          title:"Sample Card333333",
-          desc:"This is a sample card body with multiple items:",
-          count:0,
-        },
-        {
-          index:3,
-          title:"Sample Card333333",
-          desc:"This is a sample card body with multiple items:",
-          count:0,
-        },
-        {
-          index:4,
-          title:"Sample Card333333",
-          desc:"This is a sample card body with multiple items:",
-          count:0,
-        },
-        {
-          index:5,
-          title:"Sample Card333333",
-          desc:"This is a sample card body with multiple items:",
-          count:0,
-        },
+        // ... (data lainnya)
       ],
     };
   },
   methods: {
-    getAllValues() {
-      this.temp = []
+    // Fungsi untuk mendapatkan nilai count berdasarkan index
+    getCount(index) {
+      return this['count' + index];
+    },
 
+    // Fungsi untuk menambah nilai count berdasarkan index
+    increment(index) {
+      this['count' + index]++;
+    },
+
+    // Fungsi untuk mengurangi nilai count berdasarkan index
+    decrement(index) {
+      if (this['count' + index] > 0) {
+        this['count' + index]--;
+      }
+    },
+
+    // Fungsi untuk mengupdate nilai count pada data dinamis
+    updateValue(count, index) {
       for (let i = 0; i < this.items.length; i++) {
-        this.obj= {
-          index : this.items[i].index,
-          count : this.items[i].count,
-        }
-        this.temp.push(this.obj);
-      }
-      
-      this.jsonRes = JSON.stringify(this.temp);
-
-      console.log(this.jsonRes);
-    },
-
-    updateValue(count,index) {
-      for (let i = 0; i < this.items.length; i++) {
-        if(this.items[i].index==index){
-          this.items[i].count = count
+        if (this.items[i].index === index) {
+          this.items[i].count = count;
         }
       }
-
-    },
-    redirectToPage() {
-      this.$router.push('/test');
     },
 
-    increment1() {
-      this.count1++;
-    },
-    decrement1() {
-      if (this.count1 > 0) {
-        this.count1--;
-      }
-    },
-    increment2() {
-      this.count2++;
-    },
-    decrement2() {
-      if (this.count2 > 0) {
-        this.count2--;
-      }
-    },
-    increment3() {
-      this.count3++;
-    },
-    decrement3() {
-      if (this.count3 > 0) {
-        this.count3--;
-      }
-    },
+    // Fungsi untuk mendapatkan nilai count pada data dinamis
     loopItems() {
-        return this.items.map(item => item + ' ');
+      return this.items.map(item => item + ' ');
     },
   },
-  
-  
 };
-
-
 </script>
